@@ -2,15 +2,8 @@ package com.spotifyplaylist.service;
 
 import com.spotifyplaylist.model.dto.RegisterDTO;
 import com.spotifyplaylist.model.dto.UserDTO;
-import com.spotifyplaylist.model.entity.Song;
 
 public interface AuthService {
-
-     UserDTO findUserByUsername(String username);
-
-     UserDTO findUserByEmail(String email);
-
-     boolean checkCredentials(String username, String password);
 
      void login(String username);
 
@@ -18,9 +11,9 @@ public interface AuthService {
 
      void logout();
 
-     void addSongToUser(Long userId, Song song);
+     boolean checkCredentials(String username, String password);
 
-     void removeSongFromUser(Long userId, Long songId);
+     UserDTO findUserByUsername(String username);
 
-     void deleteAllSongs(Long userId);
+     UserDTO findUserByEmail(String email);
 }

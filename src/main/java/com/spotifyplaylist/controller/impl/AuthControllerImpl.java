@@ -3,7 +3,7 @@ package com.spotifyplaylist.controller.impl;
 import com.spotifyplaylist.controller.AuthController;
 import com.spotifyplaylist.model.dto.LoginDTO;
 import com.spotifyplaylist.model.dto.RegisterDTO;
-import com.spotifyplaylist.service.impl.AuthServiceImpl;
+import com.spotifyplaylist.service.AuthService;
 import com.spotifyplaylist.session.LoggedUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuthControllerImpl implements AuthController {
 
     private final LoggedUser loggedUser;
-    private final AuthServiceImpl authService;
+    private final AuthService authService;
 
-    public AuthControllerImpl(LoggedUser loggedUser, AuthServiceImpl authService) {
+    public AuthControllerImpl(LoggedUser loggedUser, AuthService authService) {
         this.loggedUser = loggedUser;
         this.authService = authService;
     }
@@ -34,6 +34,10 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     public String loginConfirm(LoginDTO loginDTO, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (this.loggedUser.isLogged()) {
+            return "redirect:/home";
+        }
+
         if (result.hasErrors()) {
             redirectAttributes
                     .addFlashAttribute("loginDTO", loginDTO)
@@ -66,6 +70,10 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     public String registerConfirm(RegisterDTO registerDTO, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (this.loggedUser.isLogged()) {
+            return "redirect:/home";
+        }
+
         if (!registerDTO.getPassword().equals(registerDTO.getConfirmPassword())) {
             result.addError(
                     new FieldError(

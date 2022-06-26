@@ -10,6 +10,7 @@ import com.spotifyplaylist.service.SongService;
 import com.spotifyplaylist.service.StyleService;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,8 @@ public class SongServiceImpl implements SongService {
         return this.repo.findByStyle(style)
                 .stream()
                 .map(this.songMapper::toSongDTO)
-                .collect(Collectors.toSet());
+                .sorted()
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
@@ -51,23 +53,25 @@ public class SongServiceImpl implements SongService {
         return this.repo.findAllByUserId(id)
                 .stream()
                 .map(this.songMapper::toSongDTO)
-                .collect(Collectors.toSet());
+                .sorted()
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+    /*
+    private SongDTO mapSongDTO(Song song) {
+        return new SongDTO()
+                .setId(song.getId())
+                .setDuration(song.getDuration())
+                .setPerformer(song.getPerformer())
+                .setTitle(song.getTitle());
     }
 
-//    private SongDTO mapSongDTO(Song song) {
-//        return new SongDTO()
-//                .setId(song.getId())
-//                .setDuration(song.getDuration())
-//                .setPerformer(song.getPerformer())
-//                .setTitle(song.getTitle());
-//    }
-//
-//    private Song mapSong(AddSongDTO addSongDTO) {
-//        return new Song()
-//                .setDuration(addSongDTO.getDuration())
-//                .setPerformer(addSongDTO.getPerformer())
-//                .setStyle(this.styleService.findStyle(addSongDTO.getStyle()))
-//                .setTitle(addSongDTO.getTitle())
-//                .setReleaseDate(addSongDTO.getReleaseDate());
-//    }
+    private Song mapSong(AddSongDTO addSongDTO) {
+        return new Song()
+                .setDuration(addSongDTO.getDuration())
+                .setPerformer(addSongDTO.getPerformer())
+                .setStyle(this.styleService.findStyle(addSongDTO.getStyle()))
+                .setTitle(addSongDTO.getTitle())
+                .setReleaseDate(addSongDTO.getReleaseDate());
+    }
+     */
 }

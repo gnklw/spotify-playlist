@@ -2,7 +2,7 @@ package com.spotifyplaylist.controller.impl;
 
 import com.spotifyplaylist.controller.SongController;
 import com.spotifyplaylist.model.dto.AddSongDTO;
-import com.spotifyplaylist.service.impl.SongServiceImpl;
+import com.spotifyplaylist.service.SongService;
 import com.spotifyplaylist.session.LoggedUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,9 +13,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SongControllerImpl implements SongController {
 
     private final LoggedUser loggedUser;
-    private final SongServiceImpl songService;
+    private final SongService songService;
 
-    public SongControllerImpl(LoggedUser loggedUser, SongServiceImpl songService) {
+    public SongControllerImpl(LoggedUser loggedUser, SongService songService) {
         this.loggedUser = loggedUser;
         this.songService = songService;
     }
@@ -31,6 +31,10 @@ public class SongControllerImpl implements SongController {
 
     @Override
     public String addSong(AddSongDTO addSongDTO, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (!loggedUser.isLogged()) {
+            return "redirect:/users/login";
+        }
+
         if (result.hasErrors()) {
             redirectAttributes
                     .addFlashAttribute("addSongDTO", addSongDTO)

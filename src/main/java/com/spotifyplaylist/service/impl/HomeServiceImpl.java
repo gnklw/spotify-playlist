@@ -5,6 +5,7 @@ import com.spotifyplaylist.model.dto.SongsByGenreDTO;
 import com.spotifyplaylist.model.entity.Style;
 import com.spotifyplaylist.model.entity.Styles;
 import com.spotifyplaylist.service.HomeService;
+import com.spotifyplaylist.service.SongService;
 import com.spotifyplaylist.service.StyleService;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 @Service
 public class HomeServiceImpl implements HomeService {
 
-    private final SongServiceImpl songService;
+    private final SongService songService;
     private final StyleService styleService;
 
     public HomeServiceImpl(SongServiceImpl songService, StyleService styleService) {

@@ -1,6 +1,7 @@
 package com.spotifyplaylist.model.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -61,15 +62,49 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public void addSongToPlaylist(Song song) {
-        this.playlist.add(song);
+    public boolean addSongToPlaylist(Song song) {
+        if (this.playlist.stream().noneMatch(s -> s.getId().equals(song.getId()))) {
+            return this.playlist.add(song);
+        }
+
+        return false;
     }
 
-    public void removeSongFromPlaylist(Long songId) {
-        this.playlist.removeIf(s -> s.getId().equals(songId));
+    public boolean removeSongFromPlaylist(Long songId) {
+        return this.playlist.removeIf(s -> s.getId().equals(songId));
     }
 
-    public void deleteAllSongFromPlaylist() {
-        this.playlist.clear();
+    public boolean deleteAllSongFromPlaylist() {
+        if (this.playlist.size() > 0) {
+            this.playlist.clear();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId().equals(user.getId())
+                && getUsername().equals(user.getUsername())
+                && getPassword().equals(user.getPassword())
+                && getEmail().equals(user.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getPassword(), getEmail());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

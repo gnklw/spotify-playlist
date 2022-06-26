@@ -2,8 +2,9 @@ package com.spotifyplaylist.model.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
-//todo: testing java record
+
 @Entity
 @Table
 public class Song extends BaseEntity {
@@ -82,5 +83,32 @@ public class Song extends BaseEntity {
     public Song setUsers(Set<User> users) {
         this.users = users;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Song song = (Song) o;
+        return getId().equals(song.getId())
+                && getDuration() == song.getDuration()
+                && getPerformer().equals(song.getPerformer())
+                && getTitle().equals(song.getTitle())
+                && Objects.equals(getReleaseDate(), song.getReleaseDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPerformer(), getTitle(), getDuration(), getReleaseDate());
+    }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "performer='" + performer + '\'' +
+                ", title='" + title + '\'' +
+                ", duration=" + duration +
+                ", releaseDate=" + releaseDate +
+                '}';
     }
 }

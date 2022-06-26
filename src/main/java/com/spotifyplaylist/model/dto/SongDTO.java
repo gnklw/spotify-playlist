@@ -1,6 +1,6 @@
 package com.spotifyplaylist.model.dto;
 
-public class SongDTO {
+public class SongDTO implements Comparable<SongDTO> {
 
     private Long id;
     private String performer;
@@ -44,5 +44,10 @@ public class SongDTO {
     public SongDTO setDuration(int duration) {
         this.duration = duration;
         return this;
+    }
+
+    @Override
+    public int compareTo(SongDTO o) {
+        return Integer.compare(this.getDuration(), o.getDuration());
     }
 }

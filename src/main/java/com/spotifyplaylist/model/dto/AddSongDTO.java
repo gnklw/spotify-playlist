@@ -8,7 +8,9 @@ import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Objects;
 
+//todo: testing java record
 public class AddSongDTO {
     private Long id;
 

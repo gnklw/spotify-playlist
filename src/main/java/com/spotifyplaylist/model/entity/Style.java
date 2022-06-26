@@ -1,6 +1,7 @@
 package com.spotifyplaylist.model.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -45,5 +46,28 @@ public class Style extends BaseEntity {
     public Style setSongs(Set<Song> songs) {
         this.songs = songs;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Style style = (Style) o;
+        return getId().equals(style.getId())
+                && getStyleName() == style.getStyleName()
+                && Objects.equals(getDescription(), style.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getStyleName(), getDescription());
+    }
+
+    @Override
+    public String toString() {
+        return "Style{" +
+                "styleName=" + styleName +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
