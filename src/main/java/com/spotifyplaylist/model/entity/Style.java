@@ -6,6 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table
+//todo: relation refactor
 public class Style extends BaseEntity {
 
     @Column(nullable = false, unique = true)

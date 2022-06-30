@@ -49,9 +49,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout() {
         this.session.invalidate();
-        this.loggedUser
-                .setId(null)
-                .setUsername(null);
+        this.loggedUser.invalidate();
     }
 
     @Override

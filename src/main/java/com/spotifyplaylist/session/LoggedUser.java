@@ -8,6 +8,9 @@ public class LoggedUser {
     private Long id;
     private String username;
 
+    public LoggedUser() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -28,5 +31,9 @@ public class LoggedUser {
 
     public boolean isLogged() {
         return this.username != null && this.id != null;
+    }
+
+    public void invalidate() {
+        this.setId(null).setUsername(null);
     }
 }

@@ -31,9 +31,4 @@ public class StyleServiceImpl implements StyleService {
     public Style findStyle(Styles style) {
         return this.repo.findByStyleName(style).orElseThrow();
     }
-
-    @Override
-    public Style findStyleByStyleName(Styles styleName) {
-        return this.repo.findByStyleName(styleName).orElseThrow();
-    }
 }

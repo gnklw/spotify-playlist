@@ -12,7 +12,7 @@ import javax.validation.Valid;
 @RequestMapping("/songs")
 public interface SongController {
 
-    @GetMapping("add-song")
+    @GetMapping("/add-song")
     String addSong();
 
     @PostMapping("/add-song")
