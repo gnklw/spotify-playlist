@@ -7,5 +7,5 @@ public interface StyleService {
 
     void initStyles();
 
-    Style findStyle(Styles style);
+    Style getStyle(Styles style);
 }

@@ -97,11 +97,11 @@ public class AuthControllerImpl implements AuthController {
     @Override
     public String logout() {
         if (!this.loggedUser.isLogged()) {
-            return "redirect:/users/login";
+            return "login";
         }
 
         this.authService.logout();
-        return "redirect:/";
+        return "redirect:/users/login";
     }
 
     @ModelAttribute

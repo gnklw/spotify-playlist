@@ -15,8 +15,6 @@ public interface SongRepo extends JpaRepository<Song, Long> {
 
     Set<Song> findByStyle(Style style);
 
-    Optional<Song> findByPerformer(String performer);
-
     @Query("select s, u from Song s join s.users u on u.id = :id")
     Set<Song> findAllByUserId(@Param("id") Long id);
 }

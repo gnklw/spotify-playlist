@@ -25,13 +25,13 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public SongsByGenreDTO getSongs() {
         SongsByGenreDTO songs = new SongsByGenreDTO();
-        songs.setPopSongs(this.getSongsByGenre(this.styleService.findStyle(Styles.POP)));
-        songs.setJazzSongs(this.getSongsByGenre(this.styleService.findStyle(Styles.JAZZ)));
-        songs.setRockSongs(this.getSongsByGenre(this.styleService.findStyle(Styles.ROCK)));
+        songs.setPopSongs(this.getSongsByGenre(this.styleService.getStyle(Styles.POP)));
+        songs.setJazzSongs(this.getSongsByGenre(this.styleService.getStyle(Styles.JAZZ)));
+        songs.setRockSongs(this.getSongsByGenre(this.styleService.getStyle(Styles.ROCK)));
         return songs;
     }
 
     private Set<SongDTO> getSongsByGenre(Style style) {
-        return this.songService.findSongsByStyle(style);
+        return this.songService.getSongsByStyle(style);
     }
 }

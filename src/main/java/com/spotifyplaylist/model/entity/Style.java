@@ -6,7 +6,6 @@ import java.util.Set;
 
 @Entity
 @Table
-//todo: relation refactor
 public class Style extends BaseEntity {
 
     @Column(nullable = false, unique = true)
@@ -16,7 +15,7 @@ public class Style extends BaseEntity {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "style", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "style", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Song> songs;
 
     public Style() {
@@ -67,8 +66,8 @@ public class Style extends BaseEntity {
     @Override
     public String toString() {
         return "Style{" +
-                "styleName=" + styleName +
-                ", description='" + description + '\'' +
+                "styleName=" + getStyleName() +
+                ", description='" + getDescription() + '\'' +
                 '}';
     }
 }

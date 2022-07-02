@@ -21,7 +21,7 @@ public class Song extends BaseEntity {
     @Column
     private LocalDate releaseDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_style")
     private Style style;
 
@@ -105,10 +105,10 @@ public class Song extends BaseEntity {
     @Override
     public String toString() {
         return "Song{" +
-                "performer='" + performer + '\'' +
-                ", title='" + title + '\'' +
-                ", duration=" + duration +
-                ", releaseDate=" + releaseDate +
+                "performer='" + getPerformer() + '\'' +
+                ", title='" + getTitle() + '\'' +
+                ", duration=" + getDuration() +
+                ", releaseDate=" + getReleaseDate() +
                 '}';
     }
 }

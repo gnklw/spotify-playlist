@@ -17,7 +17,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "users_songs",
             joinColumns = @JoinColumn(name = "fk_user"),
             inverseJoinColumns = @JoinColumn(name = "fk_song"))
@@ -63,20 +63,30 @@ public class User extends BaseEntity {
     }
 
     public boolean addSongToPlaylist(Song song) {
-        if (this.playlist.stream().noneMatch(s -> s.getId().equals(song.getId()))) {
-            return this.playlist.add(song);
+        if (this.getPlaylist().stream().noneMatch(s -> s.getId().equals(song.getId()))) {
+            this.getPlaylist().add(song);
+            song.getUsers().add(this);
+            return true;
         }
 
         return false;
     }
 
-    public boolean removeSongFromPlaylist(Long songId) {
-        return this.playlist.removeIf(s -> s.getId().equals(songId));
+    public boolean removeSongFromPlaylist(Song song) {
+        if (this.getPlaylist().stream().anyMatch(s -> s.getId().equals(song.getId()))) {
+            this.playlist.remove(song);
+            song.getUsers().remove(this);
+            return true;
+        }
+
+        return false;
     }
 
     public boolean deleteAllSongFromPlaylist() {
-        if (this.playlist.size() > 0) {
-            this.playlist.clear();
+        if (this.getPlaylist().size() > 0) {
+            this.getPlaylist()
+                    .forEach(song -> song.getUsers().removeIf(u -> u.getId().equals(this.getId())));
+            this.getPlaylist().clear();
             return true;
         }
 
@@ -102,9 +112,8 @@ public class User extends BaseEntity {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
+                "username='" + getUsername() + '\'' +
+                ", email='" + getEmail() + '\'' +
                 '}';
     }
 }

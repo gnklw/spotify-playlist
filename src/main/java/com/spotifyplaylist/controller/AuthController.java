@@ -26,6 +26,6 @@ public interface AuthController {
     @PostMapping("/register")
     String registerConfirm(@Valid RegisterDTO registerDTO, BindingResult result, RedirectAttributes redirectAttributes);
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     String logout();
 }

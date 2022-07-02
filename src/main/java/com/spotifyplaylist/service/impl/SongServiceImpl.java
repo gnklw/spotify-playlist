@@ -30,17 +30,17 @@ public class SongServiceImpl implements SongService {
     @Override
     public void addSong(AddSongDTO addSongDTO) {
         Song song = this.songMapper.toSong(addSongDTO);
-        song.setStyle(this.styleService.findStyle(addSongDTO.getStyle()));
+        song.setStyle(this.styleService.getStyle(addSongDTO.getStyle()));
         this.repo.save(song);
     }
 
     @Override
-    public Song findSongById(Long id) {
+    public Song getSongById(Long id) {
         return this.repo.findById(id).orElseThrow();
     }
 
     @Override
-    public Set<SongDTO> findSongsByStyle(Style style) {
+    public Set<SongDTO> getSongsByStyle(Style style) {
         return this.repo.findByStyle(style)
                 .stream()
                 .map(this.songMapper::toSongDTO)

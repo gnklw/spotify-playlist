@@ -11,9 +11,9 @@ public interface SongService {
 
      void addSong(AddSongDTO addSongDTO);
 
-     Song findSongById(Long id);
+     Song getSongById(Long id);
 
-     Set<SongDTO> findSongsByStyle(Style style);
+     Set<SongDTO> getSongsByStyle(Style style);
 
      Set<SongDTO> getPlaylist(Long id);
 }

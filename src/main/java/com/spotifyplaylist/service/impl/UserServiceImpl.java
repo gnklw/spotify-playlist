@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addSongToUser(Long songId, Long userId) {
-        Song song = this.songService.findSongById(songId);
+        Song song = this.getSongById(songId);
         User user = this.getUserById(userId);
         if (user.addSongToPlaylist(song)) {
             this.repo.save(user);
@@ -44,21 +44,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeSongFromUser(Long songId, Long userId) {
-        User user = getUserById(userId);
-        if (user.removeSongFromPlaylist(songId)) {
+        Song song = this.getSongById(songId);
+        User user = this.getUserById(userId);
+        if (user.removeSongFromPlaylist(song)) {
             this.repo.save(user);
         }
     }
 
     @Override
     public void deleteAllSongs(Long userId) {
-        User user = getUserById(userId);
+        User user = this.getUserById(userId);
         if (user.deleteAllSongFromPlaylist()) {
-            this.repo.save(user);
+            this.repo.saveAndFlush(user);
         }
     }
 
     private User getUserById(Long userId) {
         return this.repo.findById(userId).orElseThrow();
+    }
+
+    private Song getSongById(Long songId) {
+        return this.songService.getSongById(songId);
     }
 }

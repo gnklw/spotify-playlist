@@ -30,7 +30,10 @@
                 </li>
 
                 <li th:if="${@loggedUser.isLogged()}" class="nav-item col-md-4">
-                    <a class="nav-link text-white active h5" href="/users/logout">Logout</a>
+                    <form action="/users/logout" method="post">
+                        <button type="submit" name="logout" class="btn btn-secondary btn-sm">Logout</button>
+                    </form>
+<!--                 <a class="nav-link text-white active h5" href="/users/logout">Logout</a>-->
                 </li>
             </ul>
         </div>
