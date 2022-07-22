@@ -1,22 +1,15 @@
 package com.spotifyplaylist.service;
 
+import com.spotifyplaylist.model.dto.UserDTO;
 import com.spotifyplaylist.model.entity.User;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService {
 
     void save(User user);
 
-    User getUserByUsername(String username);
+    User getUserById(Long userId);
 
-    User getUserByEmail(String email);
+    UserDTO getUserByUsername(String username);
 
-    @Transactional
-    void addSongToUser(Long userId, Long songId);
-
-    @Transactional
-    void removeSongFromUser(Long userId, Long songId);
-
-    @Transactional
-    void deleteAllSongs(Long userId);
+    UserDTO getUserByEmail(String email);
 }

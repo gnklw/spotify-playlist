@@ -46,12 +46,12 @@ public class AuthControllerImpl implements AuthController {
             return "redirect:/users/login";
         }
 
-        boolean validCredentials = this.authService.checkCredentials(loginDTO.getUsername(), loginDTO.getPassword());
+        boolean badCredentials = this.authService.checkCredentials(loginDTO.getUsername(), loginDTO.getPassword());
 
-        if (!validCredentials) {
+        if (badCredentials) {
             redirectAttributes
                     .addFlashAttribute("loginDTO", loginDTO)
-                    .addFlashAttribute("validCredentials", false);
+                    .addFlashAttribute("badCredentials", true);
             return "redirect:/users/login";
         }
 
@@ -116,6 +116,6 @@ public class AuthControllerImpl implements AuthController {
 
     @ModelAttribute
     public void addAttribute(Model model) {
-        model.addAttribute("validCredentials");
+        model.addAttribute("badCredentials");
     }
 }

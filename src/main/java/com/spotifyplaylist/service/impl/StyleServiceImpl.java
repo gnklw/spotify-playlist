@@ -28,7 +28,8 @@ public class StyleServiceImpl implements StyleService {
     }
 
     @Override
-    public Style getStyle(Styles style) {
-        return this.repo.findByStyleName(style).orElseThrow();
+    public Style getStyleByName(Styles styleName) {
+        return this.repo.findByStyleName(styleName)
+                .orElseThrow(() -> new NullPointerException("The style {" + styleName + "} was not found."));
     }
 }

@@ -4,6 +4,7 @@ import com.spotifyplaylist.model.dto.AddSongDTO;
 import com.spotifyplaylist.model.dto.SongDTO;
 import com.spotifyplaylist.model.entity.Song;
 import com.spotifyplaylist.model.entity.Style;
+import com.spotifyplaylist.model.entity.Styles;
 import com.spotifyplaylist.model.mapper.SongMapper;
 import com.spotifyplaylist.repo.SongRepo;
 import com.spotifyplaylist.service.SongService;
@@ -30,17 +31,19 @@ public class SongServiceImpl implements SongService {
     @Override
     public void addSong(AddSongDTO addSongDTO) {
         Song song = this.songMapper.toSong(addSongDTO);
-        song.setStyle(this.styleService.getStyle(addSongDTO.getStyle()));
+        song.setStyle(this.getStyleByName(addSongDTO.getStyle()));
         this.repo.save(song);
     }
 
     @Override
     public Song getSongById(Long id) {
-        return this.repo.findById(id).orElseThrow();
+        return this.repo.findById(id)
+                .orElseThrow(() -> new NullPointerException("The song with id {" + id + "} was not found."));
     }
 
     @Override
-    public Set<SongDTO> getSongsByStyle(Style style) {
+    public Set<SongDTO> getSongsByStyle(Styles styleName) {
+        Style style = this.getStyleByName(styleName);
         return this.repo.findByStyle(style)
                 .stream()
                 .map(this.songMapper::toSongDTO)
@@ -49,29 +52,15 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Set<SongDTO> getPlaylist(Long id) {
-        return this.repo.findAllByUserId(id)
+    public Set<SongDTO> getPlaylist(Long userId) {
+        return this.repo.findAllByUserId(userId)
                 .stream()
                 .map(this.songMapper::toSongDTO)
                 .sorted()
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
-    /*
-    private SongDTO mapSongDTO(Song song) {
-        return new SongDTO()
-                .setId(song.getId())
-                .setDuration(song.getDuration())
-                .setPerformer(song.getPerformer())
-                .setTitle(song.getTitle());
-    }
 
-    private Song mapSong(AddSongDTO addSongDTO) {
-        return new Song()
-                .setDuration(addSongDTO.getDuration())
-                .setPerformer(addSongDTO.getPerformer())
-                .setStyle(this.styleService.findStyle(addSongDTO.getStyle()))
-                .setTitle(addSongDTO.getTitle())
-                .setReleaseDate(addSongDTO.getReleaseDate());
+    private Style getStyleByName(Styles styleName) {
+        return this.styleService.getStyleByName(styleName);
     }
-     */
 }

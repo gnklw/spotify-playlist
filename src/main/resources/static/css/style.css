@@ -12,7 +12,7 @@
 
 
 body {
-    background-image: url(/img/background.jpg);
+    background-image: url(/images/background.jpg);
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
@@ -52,4 +52,9 @@ footer {
 .mySticky {
     position: sticky;
     left: 0;
+}
+
+.home-playlist-button {
+    display: inline;
+    margin-left: 40px;
 }

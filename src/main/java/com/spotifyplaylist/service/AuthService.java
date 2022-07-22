@@ -12,8 +12,4 @@ public interface AuthService {
      void logout();
 
      boolean checkCredentials(String username, String password);
-
-     UserDTO findUserByUsername(String username);
-
-     UserDTO findUserByEmail(String email);
 }

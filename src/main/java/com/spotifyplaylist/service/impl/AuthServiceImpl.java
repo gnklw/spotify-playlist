@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void login(String username) {
-        User user = this.userService.getUserByUsername(username);
+        UserDTO user = this.getUserByUsername(username);
         this.loggedUser
                 .setId(user.getId())
                 .setUsername(user.getUsername());
@@ -54,40 +54,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean checkCredentials(String username, String password) {
-        User user = this.userService.getUserByUsername(username);
-        if (user == null) {
-            return false;
+        UserDTO user = this.getUserByUsername(username);
+        User userById = this.userService.getUserById(user.getId());
+        if (userById == null) {
+            return true;
         }
 
-        return encoder.matches(password, user.getPassword());
+        return !encoder.matches(password, userById.getPassword());
     }
 
-    @Override
-    public UserDTO findUserByUsername(String username) {
-        User user = this.userService.getUserByUsername(username);
-        return this.userMapper.toUserDTO(user);
+    private UserDTO getUserByUsername(String username) {
+        return this.userService.getUserByUsername(username);
     }
-
-    @Override
-    public UserDTO findUserByEmail(String email) {
-        User user = userService.getUserByEmail(email);
-        return this.userMapper.toUserDTO(user);
-    }
-
-    /*
-    private User mapUser(RegisterDTO registerDTO) {
-        return new User()
-                .setUsername(registerDTO.getUsername())
-                .setEmail(registerDTO.getEmail())
-                .setPassword(encoder.encode(registerDTO.getPassword()));
-    }
-
-    private UserDTO mapUserDTO(User user) {
-        return new UserDTO()
-                .setId(user.getId())
-                .setEmail(user.getEmail())
-                .setUsername(user.getUsername());
-
-    }
-     */
 }

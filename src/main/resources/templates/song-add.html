@@ -8,13 +8,15 @@
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add song</span></h1>
     <hr class="hr-3 w-25 bg-white"/>
 
-    <form class="mx-auto w-25 bg-blur rounded" method="post" action="/songs/add-song" th:object="${addSongDTO}">
+    <form class="mx-auto w-25 bg-blur rounded" th:action="@{/songs/add-song}" th:method="post"
+          th:object="${addSongDTO}">
 
         <div class="form-group">
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="performer" class="h4 mb-2">Performer</label>
             </div>
-            <input th:field="*{performer}" th:errorclass="'is-invalid alert-danger'" type="text" class="form-control" id="performer" name="performer"/>
+            <input th:field="*{performer}" th:errorclass="'is-invalid alert-danger'" type="text" class="form-control"
+                   id="performer" name="performer"/>
             <small class="invalid-feedback text-danger">Performer error message</small>
         </div>
 
@@ -22,7 +24,8 @@
             <div class="label-holder textCol d-flex justify-content-center">
                 <label for="title" class="h4 mb-2 text-white">Title</label>
             </div>
-            <input th:field="*{title}" th:errorclass="'is-invalid alert-danger'" type="text" class="form-control" id="title" name="title"/>
+            <input th:field="*{title}" th:errorclass="'is-invalid alert-danger'" type="text" class="form-control"
+                   id="title" name="title"/>
             <small class="invalid-feedback text-danger">Title error</small>
         </div>
 
@@ -30,7 +33,8 @@
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="releaseDate" class="h4 mb-2">Release date</label>
             </div>
-            <input th:field="*{releaseDate}" th:errorclass="'is-invalid alert-danger'" type="date" class="form-control" id="releaseDate" name="releaseDate"/>
+            <input th:field="*{releaseDate}" th:errorclass="'is-invalid alert-danger'" type="date" class="form-control"
+                   id="releaseDate" name="releaseDate"/>
             <small class="invalid-feedback text-danger">Release date error</small>
         </div>
 
@@ -38,7 +42,8 @@
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="duration" class="h4 mb-2">Duration in seconds</label>
             </div>
-            <input th:field="*{duration}" th:errorclass="'is-invalid alert-danger'" type="number" step="1" class="form-control" id="duration" name="duration"/>
+            <input th:field="*{duration}" th:errorclass="'is-invalid alert-danger'" type="number" step="1"
+                   class="form-control" id="duration" name="duration"/>
             <small class="invalid-feedback text-danger">Duration error message</small>
         </div>
 
@@ -46,7 +51,8 @@
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="style" class="h4 mb-2">Style</label>
             </div>
-            <select th:field="*{style}" th:errorclass="'is-invalid alert-danger'" class="browser-default custom-select" id="style" name="style">
+            <select th:field="*{style}" th:errorclass="'is-invalid alert-danger'" class="browser-default custom-select"
+                    id="style" name="style">
                 <option value="">Select style</option>
                 <option value="POP">Pop</option>
                 <option value="ROCK">Rock</option>

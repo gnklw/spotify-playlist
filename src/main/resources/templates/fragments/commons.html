@@ -5,36 +5,33 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Spotify playlist App</title>
-    <link rel="stylesheet" href="/css/reset-css.css"/>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" th:href="@{/css/reset-css.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-lg bg-nav rounded">
-        <a class="nav-link text-white active h5" href="/">Spotify Playlist App</a>
-        <a th:if="${@loggedUser.isLogged()}" class="nav-link text-white active h5" href="/songs/add-song">Add Song</a>
-<!--        <button class="navbar" type="button" data-toggle="collapse" data-target="#navbarNav"-->
-<!--                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggle-icon"></span>-->
-<!--        </button>-->
+        <a class="nav-link text-white active h5" th:href="@{/}">Spotify Playlist App</a>
+        <a th:if="${@loggedUser.isLogged()}" class="nav-link text-white active h5" th:href="@{/songs/add-song}">Add Song</a>
 
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
             <ul class="navbar-nav row">
+
                 <li th:if="${!@loggedUser.isLogged()}" class="nav-item col-md-4">
-                    <a class="nav-link text-white active h5" href="/users/login">Login</a>
+                    <a class="nav-link text-white active h5" th:href="@{/users/login}">Login</a>
                 </li>
 
                 <li th:if="${!@loggedUser.isLogged()}" class="nav-item col-md-4">
-                    <a class="nav-link text-white active h5" href="/users/register">Register</a>
+                    <a class="nav-link text-white active h5" th:href="@{/users/register}">Register</a>
                 </li>
 
                 <li th:if="${@loggedUser.isLogged()}" class="nav-item col-md-4">
-                    <form action="/users/logout" method="post">
+                    <form th:action="@{/users/logout}" th:method="post">
                         <button type="submit" name="logout" class="btn btn-secondary btn-sm">Logout</button>
                     </form>
-<!--                 <a class="nav-link text-white active h5" href="/users/logout">Logout</a>-->
                 </li>
+
             </ul>
         </div>
     </nav>
