@@ -1,10 +1,10 @@
 package com.spotifyplaylist.controller.impl;
 
 import com.spotifyplaylist.controller.HomeController;
-import com.spotifyplaylist.model.dto.SongDTO;
-import com.spotifyplaylist.model.entity.Styles;
-import com.spotifyplaylist.service.SongService;
-import com.spotifyplaylist.service.UserService;
+import com.spotifyplaylist.song.model.dto.SongDTO;
+import com.spotifyplaylist.style.enumeration.Styles;
+import com.spotifyplaylist.song.service.SongService;
+import com.spotifyplaylist.user.service.UserService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

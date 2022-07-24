@@ -1,7 +1,7 @@
 package com.spotifyplaylist.config;
 
-import com.spotifyplaylist.service.UserService;
-import com.spotifyplaylist.service.impl.UserDetailsServiceImpl;
+import com.spotifyplaylist.user.service.UserService;
+import com.spotifyplaylist.user.service.impl.UserDetailsServiceImpl;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/", "/users/login", "/users/register").permitAll()
+                .antMatchers("/", "/users/login", "/users/register").not().authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
