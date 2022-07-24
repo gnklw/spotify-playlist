@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class RegisterDTO {
+public class RegistrationDTO {
 
     private Long id;
 
@@ -30,14 +30,14 @@ public class RegisterDTO {
     @NotNull
     private String confirmPassword;
 
-    public RegisterDTO() {
+    public RegistrationDTO() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public RegisterDTO setId(Long id) {
+    public RegistrationDTO setId(Long id) {
         this.id = id;
         return this;
     }
@@ -46,7 +46,7 @@ public class RegisterDTO {
         return username;
     }
 
-    public RegisterDTO setUsername(String username) {
+    public RegistrationDTO setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -55,7 +55,7 @@ public class RegisterDTO {
         return email;
     }
 
-    public RegisterDTO setEmail(String email) {
+    public RegistrationDTO setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -64,7 +64,7 @@ public class RegisterDTO {
         return password;
     }
 
-    public RegisterDTO setPassword(String password) {
+    public RegistrationDTO setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -73,7 +73,7 @@ public class RegisterDTO {
         return confirmPassword;
     }
 
-    public RegisterDTO setConfirmPassword(String confirmPassword) {
+    public RegistrationDTO setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
         return this;
     }

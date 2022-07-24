@@ -4,7 +4,8 @@ import com.spotifyplaylist.controller.HomeController;
 import com.spotifyplaylist.model.dto.SongDTO;
 import com.spotifyplaylist.model.entity.Styles;
 import com.spotifyplaylist.service.SongService;
-import com.spotifyplaylist.session.LoggedUser;
+import com.spotifyplaylist.service.UserService;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -13,30 +14,18 @@ import java.util.Set;
 @Controller
 public class HomeControllerImpl implements HomeController {
 
-    private final LoggedUser loggedUser;
+    private final UserService userService;
     private final SongService songService;
 
-    public HomeControllerImpl(LoggedUser loggedUser, SongService songService) {
-        this.loggedUser = loggedUser;
+    public HomeControllerImpl(UserService userService, SongService songService) {
+        this.userService = userService;
         this.songService = songService;
     }
 
     @Override
-    public String index() {
-        if (loggedUser.isLogged()) {
-            return "redirect:/home";
-        }
-
-        return "index";
-    }
-
-    @Override
-    public String home(Model model) {
-        if (!loggedUser.isLogged()) {
-            return "redirect:/";
-        }
-
-        Set<SongDTO> playlist = this.songService.getPlaylist(loggedUser.getId());
+    public String home(Model model, User user) {
+        Set<SongDTO> playlist =
+                this.songService.getPlaylist(getUserId(user));
         String totalDurationOfPlaylist = this.calcTotalDuration(playlist);
 
         model
@@ -54,5 +43,9 @@ public class HomeControllerImpl implements HomeController {
         int minutes = (int) Math.floor(sumSeconds / 60.0);
         int seconds = sumSeconds % 60;
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    private long getUserId(User user) {
+        return this.userService.getUserByUsername(user.getUsername()).getId();
     }
 }

@@ -1,121 +1,74 @@
 package com.spotifyplaylist.controller.impl;
 
 import com.spotifyplaylist.controller.AuthController;
-import com.spotifyplaylist.model.dto.LoginDTO;
-import com.spotifyplaylist.model.dto.RegisterDTO;
-import com.spotifyplaylist.service.AuthService;
-import com.spotifyplaylist.session.LoggedUser;
+import com.spotifyplaylist.model.dto.RegistrationDTO;
+import com.spotifyplaylist.service.RegistrationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+//todo: registration and login - implement validation
+//todo: login in app doesn't work
 
 @Controller
 public class AuthControllerImpl implements AuthController {
 
-    private final LoggedUser loggedUser;
-    private final AuthService authService;
+    private final RegistrationService registrationService;
 
-    public AuthControllerImpl(LoggedUser loggedUser, AuthService authService) {
-        this.loggedUser = loggedUser;
-        this.authService = authService;
-    }
-
-    @Override
-    public String login(Model model) {
-        if (this.loggedUser.isLogged()) {
-            return "redirect:/home";
-        }
-
-        return "login";
-    }
-
-    @Override
-    public String loginConfirm(LoginDTO loginDTO, BindingResult result, RedirectAttributes redirectAttributes) {
-        if (this.loggedUser.isLogged()) {
-            return "redirect:/home";
-        }
-
-        if (result.hasErrors()) {
-            redirectAttributes
-                    .addFlashAttribute("loginDTO", loginDTO)
-                    .addFlashAttribute("org.springframework.validation.BindingResult.loginDTO", result);
-
-            return "redirect:/users/login";
-        }
-
-        boolean badCredentials = this.authService.checkCredentials(loginDTO.getUsername(), loginDTO.getPassword());
-
-        if (badCredentials) {
-            redirectAttributes
-                    .addFlashAttribute("loginDTO", loginDTO)
-                    .addFlashAttribute("badCredentials", true);
-            return "redirect:/users/login";
-        }
-
-        this.authService.login(loginDTO.getUsername());
-        return "redirect:/home";
-    }
-
-    @Override
-    public String register() {
-        if (this.loggedUser.isLogged()) {
-            return "redirect:/home";
-        }
-
-        return "register";
-    }
-
-    @Override
-    public String registerConfirm(RegisterDTO registerDTO, BindingResult result, RedirectAttributes redirectAttributes) {
-        if (this.loggedUser.isLogged()) {
-            return "redirect:/home";
-        }
-
-        if (!registerDTO.getPassword().equals(registerDTO.getConfirmPassword())) {
-            result.addError(
-                    new FieldError(
-                            "differentConfirmPassword",
-                            "confirmPassword",
-                            "Passwords must be the same."));
-        }
-
-        if (result.hasErrors()) {
-            redirectAttributes
-                    .addFlashAttribute("registerDTO", registerDTO)
-                    .addFlashAttribute("org.springframework.validation.BindingResult.registerDTO", result);
-
-            return "redirect:/users/register";
-        }
-
-        this.authService.register(registerDTO);
-        return "redirect:/home";
-    }
-
-    @Override
-    public String logout() {
-        if (!this.loggedUser.isLogged()) {
-            return "login";
-        }
-
-        this.authService.logout();
-        return "redirect:/users/login";
+    public AuthControllerImpl(RegistrationService registrationService) {
+        this.registrationService = registrationService;
     }
 
     @ModelAttribute
-    public LoginDTO loginDTO() {
-        return new LoginDTO();
-    }
-
-    @ModelAttribute
-    public RegisterDTO registerDTO() {
-        return new RegisterDTO();
+    public RegistrationDTO registrationDTO() {
+        return new RegistrationDTO();
     }
 
     @ModelAttribute
     public void addAttribute(Model model) {
-        model.addAttribute("badCredentials");
+        model
+                .addAttribute("badCredentials")
+                .addAttribute("username");
+    }
+
+    @Override
+    public String login() {
+        return "login";
+    }
+
+    @Override
+    public String register() {
+        return "register";
+    }
+
+    @Override
+    public String createAccount(RegistrationDTO registrationDTO/*, BindingResult result, RedirectAttributes redirectAttributes*/) {
+//
+//        if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
+//            result.addError(
+//                    new FieldError(
+//                            "differentConfirmPassword",
+//                            "confirmPassword",
+//                            "Passwords must be the same."));
+//        }
+//
+//        if (result.hasErrors()) {
+//            redirectAttributes
+//                    .addFlashAttribute("registrationDTO", registrationDTO)
+//                    .addFlashAttribute("org.springframework.validation.BindingResult.registrationDTO", result);
+//
+//            return "redirect:/users/register";
+//        }
+
+        this.registrationService.createAccount(registrationDTO);
+        return "redirect:/home";
+    }
+
+    @Override
+    public String failedLogin(String username, RedirectAttributes attributes) {
+        attributes.addFlashAttribute("badCredentials", true);
+        attributes.addFlashAttribute("username", username);
+        return "redirect:/users/login";
     }
 }

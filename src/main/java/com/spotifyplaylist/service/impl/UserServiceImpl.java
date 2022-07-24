@@ -30,16 +30,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserByUsername(String username) {
-        return this.mapper.toUserDTO(this.repo.findByUsername(username)
-                .orElseThrow(() -> new NullPointerException("The user with username {" + username + "} was not found."))
-        );
+    public User getUserByUsername(String username) {
+        return this.repo.findByUsername(username)
+                .orElseThrow(() -> new NullPointerException("The user with username {" + username + "} was not found."));
     }
 
     @Override
     public UserDTO getUserByEmail(String email) {
         return this.mapper.toUserDTO(repo.findByEmail(email)
-                .orElseThrow(() -> new NullPointerException("The user with email {" + email + "} was not found."))
-        );
+                .orElseThrow(() -> new NullPointerException("The user with email {" + email + "} was not found.")));
     }
 }

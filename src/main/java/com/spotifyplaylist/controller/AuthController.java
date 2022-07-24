@@ -1,10 +1,9 @@
 package com.spotifyplaylist.controller;
 
-import com.spotifyplaylist.model.dto.LoginDTO;
-import com.spotifyplaylist.model.dto.RegisterDTO;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import com.spotifyplaylist.model.dto.RegistrationDTO;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -15,17 +14,17 @@ import javax.validation.Valid;
 public interface AuthController {
 
     @GetMapping("/login")
-    String login(Model model);
-
-    @PostMapping("/login")
-    String loginConfirm(@Valid LoginDTO loginDTO, BindingResult result, RedirectAttributes redirectAttributes);
+    String login();
 
     @GetMapping("/register")
     String register();
 
     @PostMapping("/register")
-    String registerConfirm(@Valid RegisterDTO registerDTO, BindingResult result, RedirectAttributes redirectAttributes);
+    String createAccount(@Valid RegistrationDTO registrationDTO/*, BindingResult result, RedirectAttributes redirectAttribute*/);
 
-    @PostMapping("/logout")
-    String logout();
+    @PostMapping("/login-error")
+    String failedLogin(
+            @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
+            RedirectAttributes attributes
+    );
 }

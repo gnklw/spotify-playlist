@@ -2,47 +2,40 @@ package com.spotifyplaylist.controller.impl;
 
 import com.spotifyplaylist.controller.PlaylistController;
 import com.spotifyplaylist.service.PlaylistService;
-import com.spotifyplaylist.session.LoggedUser;
+import com.spotifyplaylist.service.UserService;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class PlaylistControllerImpl implements PlaylistController {
 
-    private final LoggedUser loggedUser;
+    private final UserService userService;
     private final PlaylistService playlistService;
 
-    public PlaylistControllerImpl(LoggedUser loggedUser, PlaylistService playlistService) {
-        this.loggedUser = loggedUser;
+    public PlaylistControllerImpl(UserService userService, PlaylistService playlistService) {
+        this.userService = userService;
         this.playlistService = playlistService;
     }
 
     @Override
-    public String addSongToPlaylist(Long songId) {
-        if (!loggedUser.isLogged()) {
-            return "redirect:/users/login";
-        }
-
-        this.playlistService.addSongToUser(songId, this.loggedUser.getId());
+    public String addSongToPlaylist(Long songId, User user) {
+        this.playlistService.addSongToUser(songId, getUserId(user));
         return "redirect:/home";
     }
 
     @Override
-    public String removeSongFromPlaylist(Long songId) {
-        if (!loggedUser.isLogged()) {
-            return "redirect:/users/login";
-        }
-
-        this.playlistService.removeSongFromUser(songId, this.loggedUser.getId());
+    public String removeSongFromPlaylist(Long songId, User user) {
+        this.playlistService.removeSongFromUser(songId, getUserId(user));
         return "redirect:/home";
     }
 
     @Override
-    public String deleteAllFromPlaylist() {
-        if (!loggedUser.isLogged()) {
-            return "redirect:/users/login";
-        }
-
-        this.playlistService.deleteAllSongs(this.loggedUser.getId());
+    public String deleteAllFromPlaylist(User user) {
+        this.playlistService.deleteAllSongs(getUserId(user));
         return "redirect:/home";
+    }
+
+    private long getUserId(User user) {
+        return this.userService.getUserByUsername(user.getUsername()).getId();
     }
 }

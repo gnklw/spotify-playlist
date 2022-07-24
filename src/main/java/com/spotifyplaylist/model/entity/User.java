@@ -23,6 +23,12 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "fk_song"))
     private Set<Song> playlist;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "fk_user"),
+            inverseJoinColumns = @JoinColumn(name = "fk_role"))
+    private Set<Role> roles;
+
     public User() {
     }
 
@@ -62,6 +68,15 @@ public class User extends BaseEntity {
         return this;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public User setRoles(Set<Role> roles) {
+        this.roles = roles;
+        return this;
+    }
+
     public boolean addSongToPlaylist(Song song) {
         if (this.getPlaylist().stream().noneMatch(s -> s.getId().equals(song.getId()))) {
             this.getPlaylist().add(song);
@@ -91,6 +106,15 @@ public class User extends BaseEntity {
         }
 
         return false;
+    }
+
+    public void addRole(Role role) {
+        if (this.getRoles() == null) {
+            this.setRoles(Set.of(role));
+            return;
+        }
+
+        this.getRoles().add(role);
     }
 
     @Override

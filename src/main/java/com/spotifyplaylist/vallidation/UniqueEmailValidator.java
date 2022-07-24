@@ -16,6 +16,10 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.userService.getUserByEmail(value) == null;
+        try {
+            return this.userService.getUserByEmail(value) == null;
+        } catch (NullPointerException ex) {
+            return true;
+        }
     }
 }

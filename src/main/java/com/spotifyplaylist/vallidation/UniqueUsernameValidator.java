@@ -16,6 +16,10 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.userService.getUserByUsername(value) == null;
+        try {
+            return this.userService.getUserByUsername(value) == null;
+        } catch (NullPointerException ex) {
+            return true;
+        }
     }
 }

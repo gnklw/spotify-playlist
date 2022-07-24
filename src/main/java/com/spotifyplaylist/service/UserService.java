@@ -9,7 +9,7 @@ public interface UserService {
 
     User getUserById(Long userId);
 
-    UserDTO getUserByUsername(String username);
+    User getUserByUsername(String username);
 
     UserDTO getUserByEmail(String email);
 }
