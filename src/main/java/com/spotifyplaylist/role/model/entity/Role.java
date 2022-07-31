@@ -1,6 +1,6 @@
 package com.spotifyplaylist.role.model.entity;
 
-import com.spotifyplaylist.model.entity.BaseEntity;
+import com.spotifyplaylist.app.model.entity.BaseEntity;
 import com.spotifyplaylist.role.enumeration.Roles;
 import com.spotifyplaylist.user.model.entity.User;
 

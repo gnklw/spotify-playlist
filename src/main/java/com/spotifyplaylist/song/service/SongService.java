@@ -15,5 +15,7 @@ public interface SongService {
 
      Set<SongDTO> getSongsByStyle(Styles styleName);
 
-     Set<SongDTO> getPlaylist(Long userId);
+     Set<SongDTO> getPlaylistByUserId(Long userId);
+
+     String calcPlaylistSongsDuration(Set<SongDTO> playlist);
 }

@@ -13,8 +13,8 @@ spring:
         enabled: 'true'
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    password: '12345'
-    username: 'root'
+    password: ''
+    username: ''
     url: jdbc:mysql://localhost:3306/spotity_playlist?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
 logging:
   level:

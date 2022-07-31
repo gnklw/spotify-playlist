@@ -1,6 +1,6 @@
 package com.spotifyplaylist.song.model.entity;
 
-import com.spotifyplaylist.model.entity.BaseEntity;
+import com.spotifyplaylist.app.model.entity.BaseEntity;
 import com.spotifyplaylist.style.model.entity.Style;
 import com.spotifyplaylist.user.model.entity.User;
 
